@@ -90,7 +90,41 @@ namespace Lab7
             Console.WriteLine("Length of '{0}': {1}", input, length);
         }
 
-            private static void Main(string[] args)
+        static void Task4()
+        {
+            // Створюємо планувальник завдань для рядків з пріоритетами типу int
+            var scheduler = new TaskScheduler<string, int>(ExecuteStringTask);
+
+            // Додавання завдань з консолі
+            Console.WriteLine("Enter tasks (format: task priority), or press Enter to execute:");
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    scheduler.ExecuteNext();
+                }
+                else
+                {
+                    string[] parts = input.Split(' ');
+                    if (parts.Length == 2 && int.TryParse(parts[1], out int priority))
+                    {
+                        scheduler.AddTask(parts[0], priority);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Use format: task priority");
+                    }
+                }
+            }
+        }
+
+        // Метод для виконання завдань типу string
+        private static void ExecuteStringTask(string task)
+        {
+            Console.WriteLine("Executing task: " + task);
+        }
+        private static void Main(string[] args)
         {
             //Task1();
             //Task2();
