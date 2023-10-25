@@ -64,6 +64,30 @@ namespace Lab7
             {
                 Console.WriteLine(item);
             }
+            {
+           }
+        }
+
+             private static void Task3()
+        {
+            // Створюємо кеш з терміном зберігання результатів 1 хвилина
+            var cache = new FunctionCache<string, int>(TimeSpan.FromMinutes(1));
+
+            // Користувацька функція для обчислення довжини рядка
+            Func<string, int> calculateLength = s =>
+            {
+                Console.WriteLine("Calculating length for: " + s);
+                return s.Length;
+            };
+
+            // Використання кешу для обчислення довжини рядка
+            string input = "Hello, World!";
+            int length = cache.GetOrAdd(input, calculateLength);
+            Console.WriteLine("Length of '{0}': {1}", input, length);
+
+            // Використання кешу для повторного обчислення довжини рядка (результат повинен бути взятий із кешу)
+            length = cache.GetOrAdd(input, calculateLength);
+            Console.WriteLine("Length of '{0}': {1}", input, length);
         }
 
             private static void Main(string[] args)
